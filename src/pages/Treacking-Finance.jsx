@@ -263,13 +263,11 @@ const TreackingFinance = () => {
 			}}
 			className="h-screen  bg-no-repeat bg-cover bg-center "
 		>
-			
 			<div className="flex justify-center ">
 				<div className=" p-4 flex gap-2">
-					<div >
-						<img 
-						className='h-100 w-100'
-
+					<div>
+						<img
+							className="h-100 w-100"
 							src="leftimage.png"
 							alt=""
 						/>
@@ -277,10 +275,14 @@ const TreackingFinance = () => {
 					<form
 						action=""
 						onSubmit={submithandler}
-						className='bg-white p-10'
+						className="bg-white p-10"
 					>
-						<div className='flex justify-center'>
-							<img src="user.jpg" alt="" className='h-30 w-30' />
+						<div className="flex justify-center">
+							<img
+								src="user.jpg"
+								alt=""
+								className="h-30 w-30"
+							/>
 						</div>
 						<div>
 							<input
@@ -309,7 +311,7 @@ const TreackingFinance = () => {
 						<div>
 							<input
 								placeholder="Password"
-								type="text"
+								type="password"
 								name=""
 								id=""
 								className="border outline-0 mt-2 px-2"
@@ -319,23 +321,21 @@ const TreackingFinance = () => {
 							/>
 						</div>
 
-						<div className='bg-black flex justify-center items-center text-amber-50 mt-2 rounded-2xl'>
-							<button>
-							Submit
-						</button>
+						<div className="bg-black flex justify-center items-center text-amber-50 mt-2 rounded-2xl">
+							<button>Submit</button>
 						</div>
 					</form>
 				</div>
 			</div>
-			<div className='flex justify-center cursor-pointer '>
+			<div className="flex justify-center cursor-pointer ">
 				<div
-				onClick={() => {
-					navigate('/login');
-				}}
-				className="text-white"
-			>
-				login
-			</div>
+					onClick={() => {
+						navigate('/login');
+					}}
+					className="text-white"
+				>
+					login
+				</div>
 			</div>
 		</div>
 	);
