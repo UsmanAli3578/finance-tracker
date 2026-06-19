@@ -819,10 +819,16 @@ const Userpage = () => {
 		console.log(newarrE);
 		setUserExpense(newarrE);
 		setUserIcome(newarrI);
-		let TotalExpense = newarrE?.reduce((curr, next) => {
+		// let TotalExpense = newarrE?.reduce((curr, next) => {
+		// 	return curr + next.Amount;
+		// }, 0);
+		let TotalExpense = (newarrE ?? []).reduce((curr, next) => {
 			return curr + next.Amount;
 		}, 0);
-		let TotalIncome = newarrI?.reduce((curr, next) => {
+		// let TotalIncome = newarrI?.reduce((curr, next) => {
+		// 	return curr + next.Amount;
+		// }, 0);
+		let TotalIncome = (newarrI ?? []).reduce((curr, next) => {
 			return curr + next.Amount;
 		}, 0);
 		setTotalExpense(TotalExpense);
@@ -864,18 +870,16 @@ const Userpage = () => {
 						/>
 					</div>
 					<div>
-						<div className='font-bold'>Category</div>
+						<div className="font-bold">Category</div>
 						<select
 							value={catagory}
 							onChange={(e) => setCatagory(e.target.value)}
-							className='border'
+							className="border"
 						>
 							<option value="">Select Category</option>
 							<option value="income">Income</option>
 							<option value="expense">Expense</option>
 						</select>
-
-						
 					</div>
 					<div>
 						<div className=" font-bold">Amount</div>
