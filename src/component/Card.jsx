@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaGasPump } from 'react-icons/fa';
 const Card = ({ title, catagory, amount, date, t }) => {
-	console.log(catagory);
 	return (
 		<div className="">
 			<div className="flex justify-between">
@@ -13,7 +12,7 @@ const Card = ({ title, catagory, amount, date, t }) => {
 			</div>
 
 			<div className={t}> {catagory}</div>
-			<div className='text-sm font-semibold text-[#9B9DA3]'> {date}</div>
+			<div className="text-sm font-semibold text-[#9B9DA3]"> {date}</div>
 		</div>
 	);
 };

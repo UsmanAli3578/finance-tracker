@@ -753,60 +753,147 @@ const Userpage = () => {
 	const [totalExpense, setTotalExpense] = useState(0);
 	const [totalIncome, setTotalIncome] = useState(0);
 	const [remainingAmount, setRemainingAmount] = useState(0);
+	const [search, setSearch] = useState('');
+	const [searchdataarr, setSearchdataarr] = useState([]);
+	const [incoomeSearch, setIncoomeSearch] = useState([]);
+	const [incomeS, setIncomeS] = useState('');
+	const [increasesearch, setIncreasesearch] = useState(0);
+	const [esearch, setEsearch] = useState(0);
+
 	function incomeSubmit(e) {
 		e.preventDefault();
-		let amo = Number(amount);
-		let Ctitle =
-			title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
-		let Ccatagory =
-			catagory.charAt(0).toUpperCase() + catagory.slice(1).toLowerCase();
-		let userData = {
-			ID: id,
-			Title: Ctitle,
-			Catagory: Ccatagory,
-			Amount: amo,
-			Dat: date,
-		};
-		let arr = [];
-		arr.push(userData);
-		if (catagory == 'income') {
-			// console.log('Income', arr);
-			let olddata = JSON.parse(localStorage.getItem('Income') || '[]');
-			arr = [...olddata, userData];
-			localStorage.setItem('Income', JSON.stringify(arr));
-			setTitle('');
-			setCatagory('');
-			setAmount(0);
-			setDate('');
-			setRender(render + 1);
-		} else {
-			console.log('Expense', userData);
-			let olddata = JSON.parse(localStorage.getItem('Expense') || '[]');
-			arr = [...olddata, userData];
+		if (title !== '' && catagory !== '' && date !== '' && amount !== 0) {
+			let amo = Number(amount);
+			let Ctitle =
+				title.charAt(0).toUpperCase() + title.slice(1).toLowerCase();
+			let Ccatagory =
+				catagory.charAt(0).toUpperCase() +
+				catagory.slice(1).toLowerCase();
+			let userData = {
+				ID: id,
+				itm: crypto.randomUUID(),
+				Title: Ctitle,
+				Catagory: Ccatagory,
+				Amount: amo,
+				Dat: date,
+			};
+			let arr = [];
+			arr.push(userData);
 
-			localStorage.setItem('Expense', JSON.stringify(arr));
-			setTitle('');
-			setCatagory('');
-			setAmount(0);
-			setDate('');
+			if (catagory == 'income') {
+				// console.log('Income', arr);
+				let olddata = JSON.parse(
+					localStorage.getItem('Income') || '[]',
+				);
+				arr = [...olddata, userData];
+				localStorage.setItem('Income', JSON.stringify(arr));
+				setTitle('');
+				setCatagory('');
+				setAmount(0);
+				setDate('');
+				setRender(render + 1);
+			} else {
+				console.log('Expense', userData);
+				let olddata = JSON.parse(
+					localStorage.getItem('Expense') || '[]',
+				);
+				arr = [...olddata, userData];
 
-			setRender(render + 1);
+				localStorage.setItem('Expense', JSON.stringify(arr));
+				setTitle('');
+				setCatagory('');
+				setAmount(0);
+				setDate('');
+
+				setRender(render + 1);
+			}
 		}
 	}
-	function remove(data, i) {
-		if (data.Catagory == 'Expense') {
-			let newarr = userExpense.toSpliced(i, 1);
-			localStorage.setItem('Expense', JSON.stringify(newarr));
-			console.log(newarr);
-			setRender(render + 1);
-		} else {
-			let newarr = userIcome.toSpliced(i, 1);
+
+	// function remove(data, i) {
+	// 	if (increasesearch > 0) {
+	// 		// let newarr = incoomeSearch.toSpliced(data, 1);
+	// 		// console.log(newarr);
+	// 		let newarr = userIcome.filter((item) => {
+	// 			return item.itm !== data.itm;
+	// 		});
+	// 		console.log(newarr);
+	// 		localStorage.setItem('Income', JSON.stringify(newarr));
+
+	// 		setRender(render + 1);
+	// 	} else if (data.Catagory == 'Expense') {
+	// 		let newarr = userExpense.toSpliced(data, 1);
+	// 		localStorage.setItem('Expense', JSON.stringify(newarr));
+	// 		console.log(newarr);
+	// 		setRender(render + 1);
+	// 	} else {
+	// 		let newarr = userIcome.toSpliced(i, 1);
+	// 		localStorage.setItem('Income', JSON.stringify(newarr));
+	// 		setRender(render + 1);
+	// 	}
+	// 	incoomeSearch;
+	// 	// console.log(data, i);
+	// 	console.log(data);
+	// }
+
+	function remove(data) {
+		if (incoomeSearch.length > 0) {
+			let IncomeData = JSON.parse(localStorage.getItem('Income') || '[]');
+
+			let newarr = IncomeData.filter((item) => {
+				return item.itm !== data.itm;
+			});
+
 			localStorage.setItem('Income', JSON.stringify(newarr));
-			setRender(render + 1);
 
-			console.log(newarr);
+			setIncoomeSearch(
+				incoomeSearch.filter((item) => {
+					return item.itm !== data.itm;
+				}),
+			);
+
+			setRender((prev) => prev + 1);
+		} else if (searchdataarr.length > 0) {
+			let IncomeData = JSON.parse(
+				localStorage.getItem('Expense') || '[]',
+			);
+
+			let newarr = IncomeData.filter((item) => {
+				return item.itm !== data.itm;
+			});
+
+			localStorage.setItem('Expense', JSON.stringify(newarr));
+			setSearchdataarr(
+				searchdataarr.filter((item) => {
+					return item.itm !== data.itm;
+				}),
+			);
+			setRender((prev) => prev + 1);
+		} else if (data.Catagory == 'Expense') {
+			let ExpenseData = JSON.parse(
+				localStorage.getItem('Expense') || '[]',
+			);
+
+			let newarr = ExpenseData.filter((item) => {
+				return item.itm !== data.itm;
+			});
+
+			localStorage.setItem('Expense', JSON.stringify(newarr));
+
+			setRender((prev) => prev + 1);
+		} else {
+			let IncomeData = JSON.parse(localStorage.getItem('Income') || '[]');
+
+			let newarr = IncomeData.filter((item) => {
+				return item.itm !== data.itm;
+			});
+
+			localStorage.setItem('Income', JSON.stringify(newarr));
+
+			setRender((prev) => prev + 1);
 		}
 	}
+
 	useEffect(() => {
 		let IncomeData = JSON.parse(localStorage.getItem('Income'));
 		let ExpenseData = JSON.parse(localStorage.getItem('Expense'));
@@ -816,7 +903,7 @@ const Userpage = () => {
 		let newarrI = IncomeData?.filter((data) => {
 			return data.ID == id;
 		});
-		console.log(newarrE);
+		// console.log(newarrE);
 		setUserExpense(newarrE);
 		setUserIcome(newarrI);
 		// let TotalExpense = newarrE?.reduce((curr, next) => {
@@ -835,7 +922,7 @@ const Userpage = () => {
 		setTotalIncome(TotalIncome);
 		console.log(TotalIncome);
 		let remainingAmount = TotalIncome - TotalExpense;
-		console.log(remainingAmount);
+		// console.log(remainingAmount);
 		setRemainingAmount(remainingAmount);
 		// console.log(IncomeData);
 		// console.log(ExpenseData);
@@ -954,27 +1041,74 @@ const Userpage = () => {
 							<SlArrowDownCircle /> Income{' '}
 						</div>
 						<div className="px-2">
-							{userIcome?.map((data, i) => {
-								return (
-									<div className="mt-2 bg-white px-2">
-										{' '}
-										<Card
-											title={data.Title}
-											catagory={data.Catagory}
-											amount={data.Amount}
-											date={data.Dat}
-											t="text-[#18AA54]"
-										/>
-										<button
-											onClick={() => {
-												remove(data, i);
-											}}
-										>
-											<AiTwotoneDelete />
-										</button>
-									</div>
-								);
-							})}
+							<input
+								value={incomeS}
+								type="text"
+								placeholder="search by title"
+								className=" outline-none px-2 border border-[#49B471] "
+								onChange={(e) => {
+									setIncomeS(e.target.value);
+
+									let searchdata;
+
+									searchdata = userIcome.filter((data) => {
+										return data.Title.toLowerCase().includes(
+											incomeS.toLowerCase(),
+										);
+									});
+
+									setIncreasesearch(increasesearch + 1);
+									setIncoomeSearch(searchdata);
+									if (e.target.value == '') {
+										setIncoomeSearch([]);
+									}
+								}}
+							/>
+						</div>
+						<div className="px-2">
+							{incoomeSearch.length > 0
+								? incoomeSearch.map((data, i) => (
+										<div className=" bg-white px-2 mt-2">
+											{' '}
+											<Card
+												title={data.Title}
+												catagory={data.Catagory}
+												amount={data.Amount}
+												date={data.Dat}
+												index={i}
+												t="text-[#49B471]"
+											/>
+											<button
+												onClick={() => {
+													remove(data, i);
+												}}
+											>
+												<AiTwotoneDelete />
+											</button>
+										</div>
+									))
+								: userIcome?.map((data, i) => {
+										return (
+											<div className=" bg-white px-2 mt-2">
+												{' '}
+												<Card
+													title={data.Title}
+													catagory={data.Catagory}
+													amount={data.Amount}
+													date={data.Dat}
+													index={i}
+													t="text-[#49B471]"
+												/>
+												<button
+													onClick={() => {
+														remove(data, i);
+													}}
+												>
+													<AiTwotoneDelete />
+												</button>
+											</div>
+										);
+									})}
 						</div>
 						<div className="text-center font-semibold text-[#49B471]">
 							Total Income: {totalIncome}
@@ -988,28 +1122,72 @@ const Userpage = () => {
 							<SlArrowUpCircle /> Expense
 						</div>
 						<div className="px-2">
-							{userExpense?.map((data, i) => {
-								return (
-									<div className=" bg-white px-2 mt-2">
-										{' '}
-										<Card
-											title={data.Title}
-											catagory={data.Catagory}
-											amount={data.Amount}
-											date={data.Dat}
-											index={i}
-											t="text-[#F7615D]"
-										/>
-										<button
-											onClick={() => {
-												remove(data, i);
-											}}
-										>
-											<AiTwotoneDelete />
-										</button>
-									</div>
-								);
-							})}
+							<input
+								value={search}
+								type="text"
+								placeholder="search by title"
+								className=" border border-[#C4120F] outline-none  px-2 "
+								onChange={(e) => {
+									setSearch(e.target.value);
+									let searchdata = userExpense.filter(
+										(data) => {
+											return data.Title.toLowerCase().includes(
+												search.toLowerCase(),
+											);
+										},
+									);
+									setEsearch(esearch + 1);
+									setSearchdataarr(searchdata);
+									if (e.target.value == '') {
+										setSearchdataarr([]);
+									}
+								}}
+							/>
+						</div>
+						<div className="px-2">
+							{searchdataarr.length > 0
+								? searchdataarr.map((data, i) => (
+										<div className=" bg-white px-2 mt-2">
+											{' '}
+											<Card
+												title={data.Title}
+												catagory={data.Catagory}
+												amount={data.Amount}
+												date={data.Dat}
+												index={i}
+												t="text-[#F7615D]"
+											/>
+											<button
+												onClick={() => {
+													remove(data);
+												}}
+											>
+												<AiTwotoneDelete />
+											</button>
+										</div>
+									))
+								: userExpense?.map((data, i) => {
+										return (
+											<div className=" bg-white px-2 mt-2">
+												{' '}
+												<Card
+													title={data.Title}
+													catagory={data.Catagory}
+													amount={data.Amount}
+													date={data.Dat}
+													index={i}
+													t="text-[#F7615D]"
+												/>
+												<button
+													onClick={() => {
+														remove(data, i);
+													}}
+												>
+													<AiTwotoneDelete />
+												</button>
+											</div>
+										);
+									})}
 						</div>
 						<div className="text-center font-semibold text-[#f64241] ">
 							Total Expense {totalExpense}
